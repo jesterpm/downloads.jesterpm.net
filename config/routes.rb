@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :downloads
+  get 'downloads' => 'downloads#index'
+  get 'downloads/:filename' => 'downloads#download', :filename => /.+/, :as => 'download'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
