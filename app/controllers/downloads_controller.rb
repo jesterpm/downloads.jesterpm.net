@@ -14,19 +14,27 @@ class DownloadsController < ApplicationController
   def show
     not_found if @download.nil?
 
-    s3client = Aws::S3::Client.new()
-    s3obj = Aws::S3::Object.new(ENV['S3_DOWNLOADS_BUCKET'], @download.filename, client: s3client)
-    resp = s3obj.get
+    begin
+      s3client = Aws::S3::Client.new()
+      s3obj = Aws::S3::Object.new(ENV['S3_DOWNLOADS_BUCKET'], @download.filename, client: s3client)
+      resp = s3obj.get
 
-    FileUtils.mkdir_p(Rails.root.join('tmp', 'downloads'))
+      FileUtils.mkdir_p(Rails.root.join('tmp', 'downloads'))
 
-    cached_filename = Rails.root.join('tmp', 'downloads', @download.filename)
+      cached_filename = Rails.root.join('tmp', 'downloads', @download.filename)
 
-    File.open(cached_filename, 'wb') do |file|
-      file.write resp.body.read
+      File.open(cached_filename, 'wb') do |file|
+        file.write resp.body.read
+      end
+
+      @download.hits += 1
+      @download.save
+
+      send_file cached_filename
+
+    rescue Aws::S3::Errors::NoSuchKey
+      not_found
     end
-
-    send_file cached_filename
   end
 
   private
