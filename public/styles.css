@@ -1,0 +1,40 @@
+body {
+    color: #404040;
+    color: rgba(0,0,0,0.75);
+    margin: 1em;
+}
+
+footer {
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    min-height: 300px;
+}
+
+article {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.filedetails {
+    font-size: smaller;
+}
+
+.filedetails span {
+    font-weight: bold;
+}
+
+h1, h1 a, h3, h3 a, h4, h4 a, h5, h5 a{
+    color: #404040;
+    color: rgba(0,0,0,0.75);
+    text-decoration: none;
+}
+
+h1 a:hover {
+    color: #777;
+}
